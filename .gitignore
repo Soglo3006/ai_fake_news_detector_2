@@ -1,0 +1,14 @@
+venv/
+
+prepared_data/
+results/
+logs/
+models/
+News/
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+.vscode/
