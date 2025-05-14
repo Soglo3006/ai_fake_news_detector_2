@@ -3,7 +3,7 @@ import torch
 
 # === 1. Charger le modèle fine-tuné ===
 model_path = "models/bert_fake_news"  # le dossier contenant le modèle sauvegardé après l'entraînement
-print(f"📦 Chargement du modèle depuis : {model_path}")
+print(f"Chargement du modèle depuis : {model_path}")
 tokenizer = BertTokenizer.from_pretrained(model_path)
 model = BertForSequenceClassification.from_pretrained(model_path)
 model.eval() 
@@ -23,9 +23,13 @@ def predict(text):
 # === 3. Exemple d'utilisation ===
 if __name__ == "__main__":
     examples = [
-        "NASA confirms discovery of water on the moon's surface.",
-        "BREAKING: Alien spaceship lands in Times Square, NYC."
-    ]
+    "Le gouvernement canadien a annoncé un plan pour réduire les émissions de gaz à effet de serre d'ici 2030.",
+    "NASA successfully landed the Perseverance rover on Mars in February 2021.",
+    "WHO reports a decrease in global malaria deaths over the last five years.",
+    "Louvre Museum in Paris reopened to visitors after months of COVID-19 closure.",
+    "UNICEF launches a global initiative to provide access to clean water for 100 million children."
+]
+
 
     for i, text in enumerate(examples):
         label, confidence = predict(text)

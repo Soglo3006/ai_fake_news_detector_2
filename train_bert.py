@@ -4,11 +4,11 @@ from transformers import BertTokenizer, BertForSequenceClassification, Trainer, 
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 import torch
 import transformers
-print("🚨 Fichier transformers importé depuis :", transformers.__file__)
+print("Fichier transformers importé depuis :", transformers.__file__)
 
 
 # === 1. Chargement des données ===
-print("📥 Chargement des données préparées...")
+print("Chargement des données préparées...")
 train_df = pd.read_csv("prepared_data/fake_news_train.csv")
 val_df = pd.read_csv("prepared_data/fake_news_val.csv")
 test_df = pd.read_csv("prepared_data/fake_news_test.csv")
@@ -63,11 +63,11 @@ trainer = Trainer(
     compute_metrics=compute_metrics,
 )
 
-print("🚀 Début de l'entraînement")
+print("Début de l'entraînement")
 trainer.train()
 
 # === 6. Évaluation finale ===
-print("📊 Évaluation finale sur le test set")
+print("Évaluation finale sur le test set")
 metrics = trainer.evaluate(test_dataset)
 print(metrics)
 
@@ -75,4 +75,4 @@ print(metrics)
 model.save_pretrained("models/bert_fake_news")
 tokenizer.save_pretrained("models/bert_fake_news")
 
-print("✅ Entraînement terminé et modèle sauvegardé dans 'models/bert_fake_news'")
+print("Entraînement terminé et modèle sauvegardé dans 'models/bert_fake_news'")
