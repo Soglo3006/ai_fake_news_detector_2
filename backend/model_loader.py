@@ -1,7 +1,9 @@
 from transformers import BertTokenizer, BertForSequenceClassification
 import torch
+import os
 
-MODEL_PATH = "../models/bert_fake_news"  
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MODEL_PATH = os.path.join(BASE_DIR, "models", "bert_fake_news")
 
 tokenizer = BertTokenizer.from_pretrained(MODEL_PATH)
 model     = BertForSequenceClassification.from_pretrained(MODEL_PATH)
