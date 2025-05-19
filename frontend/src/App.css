@@ -40,3 +40,56 @@
 .read-the-docs {
   color: #888;
 }
+
+.container {
+  max-width: 600px;
+  margin: 100px auto;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input-bar {
+  display: flex;
+  align-items: center;
+  background-color: #2e2e2e;
+  padding: 10px;
+  border-radius: 25px;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.text-input {
+  flex: 1;
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  outline: none;
+}
+
+.icon-button {
+  border-color: whitesmoke;
+  color: white;
+  background-color: #2e2e2e;
+  font-size: 18px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.analyze-button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease
+}
+
+.analyze-button:hover {
+  background-color: #cbc9c9;
+}
