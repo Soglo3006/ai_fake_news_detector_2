@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import './App.css'
 import { FaPlus, FaImage,FaRegEdit } from 'react-icons/fa';
+import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import Login from "./Login.jsx";
 
-
-function App() {
-  const [content,setContent] = useState("")
-
-  return (
+function HomePage({content,setContent}){
+    return (
     <div className="container">
       <div className='new-analysis-button'>
         <button><FaRegEdit/></button>
       </div>
       <div className='auth-links'>
-        <button className="bouton-connexion">Connexion</button>
+        <Link to="/login"><button className="bouton-connexion">Connexion</button></Link>
         <button className="bouton-inscrire">S'incrire</button>
       </div>
       <h3>Fake News Detector</h3>
@@ -43,7 +43,19 @@ function App() {
           <button className="send-feedback">Envoyer</button>
         </div>
     </div>
-  )
+  );
+}
+function App() {
+  const [content, setContent] = useState("");
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage content={content} setContent={setContent} />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
