@@ -4,6 +4,7 @@ import { FaPlus, FaImage,FaRegEdit } from 'react-icons/fa';
 import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import Login from "./Login.jsx";
+import Register from './Register.jsx';
 
 function HomePage({content,setContent}){
     return (
@@ -13,7 +14,7 @@ function HomePage({content,setContent}){
       </div>
       <div className='auth-links'>
         <Link to="/login"><button className="bouton-connexion">Connexion</button></Link>
-        <button className="bouton-inscrire">S'incrire</button>
+        <Link to="/inscrire"><button className="bouton-inscrire">S'incrire</button></Link>
       </div>
       <h3>Fake News Detector</h3>
       <div className='input-bar'>
@@ -53,6 +54,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage content={content} setContent={setContent} />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/inscrire" element={<Register/>}/>
       </Routes>
     </Router>
   );
