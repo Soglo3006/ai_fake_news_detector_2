@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Login() {
     const [email,SetEmail] = useState("");
@@ -26,7 +27,7 @@ function Login() {
             <button>
                 Continuer
             </button><br></br>
-            <p>Aucun compte</p>
+            <p>Aucun compte? <Link to="/inscrire">inscrire</Link></p>
         </div>
     );
 }
