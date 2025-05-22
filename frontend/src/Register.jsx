@@ -8,6 +8,8 @@ function Register(){
     const [email,SetEmail] = useState("");
     const [password,SetPassword] = useState("");
     const [confirmPassword,SetConfirmPassword] = useState("")
+
+    
     return(
         <div className="Tab-inscrire">
         <h2>Fake News Detector</h2>
@@ -54,11 +56,26 @@ function Register(){
                 value={confirmPassword}
                 onChange={(e) => SetConfirmPassword(e.target.value)} 
                 ></input>
-            <Link to="/homepage">
             <div className="button-continue">
-                <br></br><button>Continuer</button>
+                <br></br><button onClick={()=>{
+                    if (
+                    prenom.trim().length < 1 ||
+                    name.trim().length < 1 ||
+                    email.trim().length < 1 ||
+                    password.trim().length < 1 ||
+                    confirmPassword.trim().length < 1
+                ) {
+                    alert("Veuillez remplir tous les champs.");
+                    return;
+                }
+
+                if (password !== confirmPassword){
+                    alert("Les mots de passe ne correspondent pas.");
+                    return;
+                }
+            }}
+                >Continuer</button>
             </div>
-            </Link>
             <p>Vous avez déja un compte? <Link to="/login">Connexion</Link></p>
         </div>
         </div>
