@@ -1,0 +1,30 @@
+.Tab-connexion{
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: inherit;
+}
+.Tab-connexion h2{
+    font-size: 30px;
+    margin-bottom: 40px;
+    margin-top: 30px;
+}
+.Tab-connexion-form {
+  padding: 0px 40px 40px 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+  width: 300px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.Tab-connexion-form h3 {
+  font-size: 24px;
+  padding-top: 20px;
+}
+
+.Tab-connexion-form-underline p {
+    font-size: 14px;
+    margin-bottom: 4px;
+    margin-right: 70px;
+}
