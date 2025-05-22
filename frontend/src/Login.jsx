@@ -12,7 +12,7 @@ function Login() {
             <h2>Fake News Detector</h2>
             <div className="Tab-connexion-form">
                 <h3>Connexion</h3>
-                <div className="Tab-connexion-form-underline">
+                <div className="Tab-connexion-form-underline-mail">
                 <p>Adresse courriel</p>
                 <input 
                 type="email" 
@@ -22,7 +22,7 @@ function Login() {
                 onChange={(e) => SetEmail(e.target.value)}
                 ></input>
                 </div>
-                <br></br>
+                <div className="Tab-connexion-form-underline-mot-passe">
                 <p>Mot de passe</p>
                 <input
                 type="password"
@@ -30,12 +30,16 @@ function Login() {
                 className="input-mot-passe"
                 value={password}
                 onChange={(e) => SetPassword(e.target.value)}
-                ></input><br></br>
+                ></input>
+                </div>
+                <br></br>
                 <button className="button-connecter">
                     Se connecter
                 </button><br></br>
-                <p>Aucun compte?</p>
-                <Link to="/inscrire">inscrivez-vous</Link>
+                <div className="form-register">
+                <p>Vous n'avez pas de compte?</p>
+                <Link to="/inscrire">Inscrivez-vous</Link>
+                </div>
             </div>
         </div>
     );
