@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import "./Register.css";
 
 function Register(){
     const [name,setName] = useState("")
@@ -9,7 +10,9 @@ function Register(){
     const [confirmPassword,SetConfirmPassword] = useState("")
     return(
         <div className="Tab-inscrire">
-            <h2>S'inscrire</h2>
+        <h2>Fake News Detector</h2>
+        <div className="Tab-inscrire-form">
+            <h3>S'inscrire</h3>
             <div className="nom-prenom">
                 <p>Prénom</p><input
                 type="text"
@@ -18,7 +21,7 @@ function Register(){
                 value={prenom}
                 onChange={(e) => setPrenom(e.target.value)} 
                 ></input>
-                <p>nom</p>
+                <p>Nom</p>
                 <input
                 type="text"
                 className="nom-input"
@@ -51,10 +54,13 @@ function Register(){
                 value={confirmPassword}
                 onChange={(e) => SetConfirmPassword(e.target.value)} 
                 ></input>
+            <Link to="/homepage">
             <div className="button-continue">
-                <button>Continuer</button>
+                <br></br><button>Continuer</button>
             </div>
+            </Link>
             <p>Vous avez déja un compte? <Link to="/login">Connexion</Link></p>
+        </div>
         </div>
     );
 }

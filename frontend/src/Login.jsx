@@ -33,9 +33,9 @@ function Login() {
                 ></input>
                 </div>
                 <br></br>
-                <button className="button-connecter">
+                <Link to="/homepage"><button className="button-connecter">
                     Se connecter
-                </button><br></br>
+                </button></Link><br></br>
                 <div className="form-register">
                 <p>Vous n'avez pas de compte?</p>
                 <Link to="/inscrire">Inscrivez-vous</Link>

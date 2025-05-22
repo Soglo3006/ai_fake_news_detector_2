@@ -52,7 +52,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage content={content} setContent={setContent} />} />
+        <Route path="/homepage" element={<HomePage content={content} setContent={setContent} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/inscrire" element={<Register/>}/>
       </Routes>
