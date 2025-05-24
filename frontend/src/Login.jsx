@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
     const [email,SetEmail] = useState("");
     const [password,SetPassword] = useState("");
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
 
     return(
@@ -19,6 +21,7 @@ function Login() {
                 type="email" 
                 name="mail" 
                 className="input-mail"
+                autocomplete="off"
                 value={email}
                 onChange={(e) => SetEmail(e.target.value)}
                 ></input>
@@ -48,7 +51,7 @@ function Login() {
                     if (Object.keys(errorsLogin).length > 0){
                         setErrors(errorsLogin);
                     } else {
-                        setErrors({});
+                        navigate("/homepage");
                     } 
                 }}>
                     Se connecter

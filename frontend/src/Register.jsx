@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
+import { useNavigate } from "react-router-dom";
+
 
 function Register(){
     const [name,setName] = useState("")
@@ -9,6 +11,9 @@ function Register(){
     const [password,SetPassword] = useState("");
     const [confirmPassword,SetConfirmPassword] = useState("")
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
+
+
     
     return(
         <div className="Tab-inscrire">
@@ -88,7 +93,7 @@ function Register(){
                 if (Object.keys(newErrors).length > 0 ) {
                     setErrors(newErrors);
                 }  else{
-                    setErrors({});
+                    navigate("/homepage");
                 }
             }}
                 >Continuer</button>
