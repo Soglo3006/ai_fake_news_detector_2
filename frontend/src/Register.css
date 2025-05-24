@@ -1,13 +1,13 @@
 .Tab-inscrire{
     align-items: center;
-    height: 100vh;
-    background-color: inherit;    
+    background-color: inherit; 
+    display: block;   
 }
 
 .Tab-inscrire h2{
     font-size: 30px;
-    margin-bottom: 40px;
-    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-top: 15px;
 }
 
 .Tab-inscrire-form {
@@ -16,7 +16,6 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
   text-align: center;
   width: 260px;
-  height: 71vh;
 }
 
 .Tab-inscrire-form h3 {
@@ -44,6 +43,7 @@
     font-size: 18px;
     border-radius: 10px;
     width: 104%;
+    margin-top: 15px;
 }
 
 .button-continue button:hover{

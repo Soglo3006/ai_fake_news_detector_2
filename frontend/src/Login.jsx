@@ -32,10 +32,9 @@ function Login() {
                 onChange={(e) => SetPassword(e.target.value)}
                 ></input>
                 </div>
-                <br></br>
                 <Link to="/homepage"><button className="button-connecter">
                     Se connecter
-                </button></Link><br></br>
+                </button></Link>
                 <div className="form-register">
                 <p>Vous n'avez pas de compte?</p>
                 <Link to="/inscrire">Inscrivez-vous</Link>

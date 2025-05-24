@@ -1,13 +1,12 @@
 .Tab-connexion{
     justify-content: center;
     align-items: center;
-    height: 100vh;
     background-color: inherit;
 }
 .Tab-connexion h2{
     font-size: 30px;
-    margin-bottom: 40px;
-    margin-top: 30px;
+    margin-bottom: 0px;
+    margin-top: 15px;
 }
 .Tab-connexion-form {
   padding: 0px 40px 40px 40px;
@@ -15,7 +14,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
   width: 260px;
   text-align: center;
-  margin-top: 50px;
+  margin-bottom: 100px;
 }
 
 .Tab-connexion-form h3 {
@@ -59,6 +58,7 @@
     font-size: 18px;
     border-radius: 10px;
     width: 104%;
+    margin-top: 15px;
 }
 
 .button-connecter:hover{

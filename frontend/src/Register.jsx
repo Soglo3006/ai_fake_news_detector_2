@@ -57,7 +57,7 @@ function Register(){
                 onChange={(e) => SetConfirmPassword(e.target.value)} 
                 ></input>
             <div className="button-continue">
-                <br></br><button onClick={()=>{
+                <button onClick={()=>{
                     if (
                     prenom.trim().length < 1 ||
                     name.trim().length < 1 ||
