@@ -5,6 +5,7 @@ import "./Login.css";
 function Login() {
     const [email,SetEmail] = useState("");
     const [password,SetPassword] = useState("");
+    const [errors, setErrors] = useState({});
 
 
     return(
@@ -22,6 +23,7 @@ function Login() {
                 onChange={(e) => SetEmail(e.target.value)}
                 ></input>
                 </div>
+                <div className="error-message">{errors.email}</div>
                 <div className="Tab-connexion-form-underline-mot-passe">
                 <p>Mot de passe</p>
                 <input
@@ -32,9 +34,25 @@ function Login() {
                 onChange={(e) => SetPassword(e.target.value)}
                 ></input>
                 </div>
-                <Link to="/homepage"><button className="button-connecter">
+                <div className="error-message">{errors.password}</div>
+                <button className="button-connecter"
+                onClick={()=>{
+                    const errorsLogin ={};
+                    if(email === ""){
+                        errorsLogin.email = "Veuillez entrer votre adresse courriel";
+                    }
+                    if(password === ""){
+                        errorsLogin.password = "Veuillez entrer votre mot de passe";
+                    }
+                    console.log((errorsLogin));
+                    if (Object.keys(errorsLogin).length > 0){
+                        setErrors(errorsLogin);
+                    } else {
+                        setErrors({});
+                    } 
+                }}>
                     Se connecter
-                </button></Link>
+                </button>
                 <div className="form-register">
                 <p>Vous n'avez pas de compte?</p>
                 <Link to="/inscrire">Inscrivez-vous</Link>

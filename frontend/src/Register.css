@@ -1,7 +1,6 @@
 .Tab-inscrire{
     align-items: center;
-    background-color: inherit; 
-    display: block;   
+    background-color: inherit;    
 }
 
 .Tab-inscrire h2{
@@ -50,4 +49,9 @@
     background-color: #4e4e4e;
 }
 
+.error-message{
+    color: #e74c3c;
+    font-size: 10px;
+    display: flex;
+}
 

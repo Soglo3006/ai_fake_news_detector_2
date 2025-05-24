@@ -8,7 +8,7 @@ function Register(){
     const [email,SetEmail] = useState("");
     const [password,SetPassword] = useState("");
     const [confirmPassword,SetConfirmPassword] = useState("")
-
+    const [errors, setErrors] = useState({});
     
     return(
         <div className="Tab-inscrire">
@@ -23,6 +23,7 @@ function Register(){
                 value={prenom}
                 onChange={(e) => setPrenom(e.target.value)} 
                 ></input>
+                <div className="error-message">{errors.prenom}</div>
                 <p>Nom</p>
                 <input
                 type="text"
@@ -31,6 +32,7 @@ function Register(){
                 value={name}
                 onChange={(e) => setName(e.target.value)} 
                 ></input>
+                <div className="error-message">{errors.name}</div>
             </div>
             <p>Adresse courriel</p>
             <input
@@ -40,6 +42,7 @@ function Register(){
                 value={email}
                 onChange={(e) => SetEmail(e.target.value)} 
                 ></input>
+                <div className="error-message">{errors.email}</div>
             <p>Mot de passe</p>
             <input
                 type="password"
@@ -48,6 +51,7 @@ function Register(){
                 value={password}
                 onChange={(e) => SetPassword(e.target.value)} 
                 ></input>
+                <div className="error-message">{errors.password}</div>
             <p>Confirmer le mot de passe</p>
             <input
                 type="password"
@@ -56,22 +60,35 @@ function Register(){
                 value={confirmPassword}
                 onChange={(e) => SetConfirmPassword(e.target.value)} 
                 ></input>
+                <div className="error-message">{errors.confirmPassword}</div>
             <div className="button-continue">
                 <button onClick={()=>{
-                    if (
-                    prenom.trim().length < 1 ||
-                    name.trim().length < 1 ||
-                    email.trim().length < 1 ||
-                    password.trim().length < 1 ||
-                    confirmPassword.trim().length < 1
-                ) {
-                    alert("Veuillez remplir tous les champs.");
-                    return;
-                }
+                    const newErrors = {};
 
-                if (password !== confirmPassword){
-                    alert("Les mots de passe ne correspondent pas.");
-                    return;
+                if (prenom.trim().length < 1 ) {
+                    newErrors.prenom = "Saisissez votre prénom";
+                }
+                if (name.trim().length < 1) {
+                    newErrors.name = "Saisissez votre nom";
+                }
+                if (email.trim().length < 1) {
+                    newErrors.email = "Saisissez votre courriel";
+                }
+                if (password.trim().length < 1) {
+                    newErrors.password = "Saisissez un mot de passe";
+                } 
+                if (confirmPassword.trim().length < 1) {
+                    newErrors.confirmPassword = "Confirmez votre mot de passe";
+                }
+                if (password !== confirmPassword) {
+                    newErrors.confirmPassword = "Les mots de passe ne correspondent pas";
+                    newErrors.password = "Les mots de passe ne correspondent pas";
+                }
+                console.log(Object.keys(newErrors));
+                if (Object.keys(newErrors).length > 0 ) {
+                    setErrors(newErrors);
+                }  else{
+                    setErrors({});
                 }
             }}
                 >Continuer</button>
