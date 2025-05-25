@@ -7,6 +7,8 @@ import Login from "./Login.jsx";
 import Register from './Register.jsx';
 
 function HomePage({content,setContent}){
+    const [submittedText, setSubmittedText] = useState("");
+    const [result, setResult] = useState(null);
     return (
     <div className="container">
       <div className='new-analysis-button'>
@@ -17,6 +19,30 @@ function HomePage({content,setContent}){
         <Link to="/inscrire"><button className="bouton-inscrire">S'incrire</button></Link>
       </div>
       <h3>Fake News Detector</h3>
+      {submittedText && (
+        <div style={{ textAlign: "right", marginTop: "20px" }}>
+          <div style={{
+            display: "inline-block",
+            backgroundColor: "#2e2e2e",
+            color: "white",
+            padding: "12px 16px",
+            borderRadius: "20px",
+            maxWidth: "60%",
+            textAlign: "left",
+            }}> 
+            {submittedText}
+            </div>
+          </div>)}
+
+        {result && (
+  <div style={{ marginTop: "30px" }}>
+    <h3 style={{ fontSize: "22px", color: result.label === "FAKE" ? "red" : "green" }}>
+      {result.label} – {Math.round(result.confidence * 100)}%
+    </h3>
+    <p>Ce texte présente des éléments typiques de {result.label === "FAKE" ? "désinformation" : "véracité"}.</p>
+  </div>
+)}
+
       <div className='input-bar'>
         <textarea
                 name="article" 
@@ -34,7 +60,21 @@ function HomePage({content,setContent}){
           <FaPlus />
         </button>
         </div>
-        <button className="analyze-button">Analyser</button>
+        <button className="analyze-button" onClick={()=>{
+          if (content.trim().length <1){
+            alert("Veuillez entrer un article de nouvelles");
+          } else{
+            setSubmittedText(content)
+          }
+          const fakeResult = {
+            label: "FAKE",
+            confidence: 0.92,
+          };
+          setResult(fakeResult);
+          setContent("");
+          console.log(submittedText);
+        }}
+        >Analyser</button>
         <div className='feedback-link'>
           <button className='feeback-button'>feedback</button>
         </div>

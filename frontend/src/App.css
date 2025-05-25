@@ -44,9 +44,9 @@
   align-items: center;
   padding: 10px;
   border-radius: 25px;
-  width: 200%;
+  width: 600px;
   position: relative;
-  right: 50%;
+  margin: 0 auto;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   display: flex;
 }

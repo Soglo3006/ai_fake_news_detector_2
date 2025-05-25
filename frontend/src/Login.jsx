@@ -21,7 +21,7 @@ function Login() {
                 type="email" 
                 name="mail" 
                 className="input-mail"
-                autocomplete="off"
+                autoComplete="off"
                 value={email}
                 onChange={(e) => SetEmail(e.target.value)}
                 ></input>
