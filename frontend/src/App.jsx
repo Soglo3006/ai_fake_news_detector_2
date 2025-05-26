@@ -9,6 +9,32 @@ import Register from './Register.jsx';
 function HomePage({content,setContent}){
     const [messages, setMessages] = useState([]);
     const [result, setResult] = useState(null);
+
+    const analyzeText = async() => {
+        if (content.trim().length < 1) {
+            alert("Veuillez entrer un article de nouvelles");
+            return;
+        }
+        try {
+            const response = await fetch('http://127.0.0.1:8000/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content }),
+            });
+            const data = await response.json();
+
+            const newMessage = {
+            text: content,
+            result: data,
+            };
+            setMessages((prev) => [...prev, newMessage]);
+            setContent("");
+        } catch (error) {
+            console.error("Erreur lors de l'analyse :", error);
+        }
+    };
     return (
     <div className="container">
       <div className='new-analysis-button'>
@@ -54,22 +80,7 @@ function HomePage({content,setContent}){
         </button>
         </div>
         </div>
-        <button className="analyze-button" onClick={()=>{
-          if (content.trim().length <1){
-            alert("Veuillez entrer un article de nouvelles");
-          } else {
-            const fakeResult = {
-            label: "FAKE",
-            confidence: 0.92,
-          };
-          const newMessage = {
-            text: content,
-            result: fakeResult
-          };
-          setMessages((prev) => [...prev, newMessage]);
-          setContent("");
-        }}
-          }
+        <button className="analyze-button" onClick={analyzeText}
         >Analyser</button>
         <div className='feedback-link'>
           <button className='feeback-button'>feedback</button>
