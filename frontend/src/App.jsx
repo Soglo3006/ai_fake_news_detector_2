@@ -18,19 +18,12 @@ function HomePage({content,setContent}){
         <Link to="/login"><button className="bouton-connexion">Connexion</button></Link>
         <Link to="/inscrire"><button className="bouton-inscrire">S'incrire</button></Link>
       </div>
+      <div className='section-page'>
       <h3>Fake News Detector</h3>
       {messages.map((msg, index) => (
   <div key={index} style={{ marginTop: "30px" }}>
-    <div style={{ textAlign: "right" }}>
-      <div style={{
-        display: "inline-block",
-        backgroundColor: "#2e2e2e",
-        color: "white",
-        padding: "12px 16px",
-        borderRadius: "20px",
-        maxWidth: "60%",
-        textAlign: "left"
-      }}>
+    <div style={{ display: "flex", justifyContent: "flex-end",marginTop: "20px" }}>
+      <div className='bulle-droite'>
         {msg.text}
       </div>
     </div>
@@ -60,11 +53,12 @@ function HomePage({content,setContent}){
           <FaPlus />
         </button>
         </div>
+        </div>
         <button className="analyze-button" onClick={()=>{
           if (content.trim().length <1){
             alert("Veuillez entrer un article de nouvelles");
-          }
-          const fakeResult = {
+          } else {
+            const fakeResult = {
             label: "FAKE",
             confidence: 0.92,
           };
@@ -75,6 +69,7 @@ function HomePage({content,setContent}){
           setMessages((prev) => [...prev, newMessage]);
           setContent("");
         }}
+          }
         >Analyser</button>
         <div className='feedback-link'>
           <button className='feeback-button'>feedback</button>
