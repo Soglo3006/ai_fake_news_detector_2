@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import Login from "./Login.jsx";
 import Register from './Register.jsx';
+import { useRef } from 'react';
 
 function HomePage({content,setContent}){
     const [messages, setMessages] = useState([]);
@@ -12,6 +13,7 @@ function HomePage({content,setContent}){
     const[feedbackContent, setFeedbackContent] = useState("");
     const [showFeedback,SetshowFeedback] = useState(false);
     const [expectedLabel, setExpectedLabel] = useState("FAKE");
+    const inputRef = useRef(null);
 
 
     const analyzeText = async() => {
@@ -70,7 +72,12 @@ function HomePage({content,setContent}){
     return (
     <div className="container">
       <div className='new-analysis-button'>
-        <button><FaRegEdit/></button>
+        <button onClick={()=>{
+          setMessages([]);
+          setContent("");
+          setResult(null);
+          setExpectedLabel("FAKE");
+        }}><FaRegEdit/></button>
       </div>
       <div className='auth-links'>
         <Link to="/login"><button className="bouton-connexion">Connexion</button></Link>
@@ -101,9 +108,27 @@ function HomePage({content,setContent}){
                 className="text-input"
                 autoComplete='off'
                 value={content}
+                ref={inputRef}
                 onChange={(e) => setContent(e.target.value)} 
                 rows={1}
           />
+          <button
+  style={{
+    position: "fixed",
+    bottom: "120px",
+    right: "50px",
+    padding: "10px",
+    borderRadius: "8px",
+    backgroundColor: "#2e2e2e",
+    color: "white",
+    border: "none",
+    cursor: "pointer"
+  }}
+  onClick={() => inputRef.current?.scrollIntoView({ behavior: 'smooth' })}
+>
+  ↓
+</button>
+
         <button className="icon-button" title="Ajouter Une image">
           <FaImage />
         </button>
