@@ -9,12 +9,9 @@ import { useRef } from 'react';
 
 function HomePage({content,setContent}){
     const [messages, setMessages] = useState([]);
-    const [result, setResult] = useState(null);
     const[feedbackContent, setFeedbackContent] = useState("");
     const [showFeedback,SetshowFeedback] = useState(false);
     const [expectedLabel, setExpectedLabel] = useState("FAKE");
-    const [labelFake, setLabelFake] = useState("FAKE");
-    const [labelTrue, setLabelTrue] = useState("TRUE");
     const inputRef = useRef(null);
     const [feedbackComment, setFeedbackComment] = useState("");
 
@@ -57,14 +54,15 @@ function HomePage({content,setContent}){
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        content: content,               
+        content: feedbackContent,               
         expected_label: expectedLabel, 
-        comment: feedbackContent       
+        comment: feedbackComment,       
       }),
     });
     const data = await response.json();
     alert(data.message);
     setFeedbackContent(""); 
+    setFeedbackComment("");
     SetshowFeedback(false);
   } catch (error) {
     console.error("Erreur lors de l'envoi du feedback :", error);
@@ -78,7 +76,6 @@ function HomePage({content,setContent}){
         <button onClick={()=>{
           setMessages([]);
           setContent("");
-          setResult(null);
           setExpectedLabel("FAKE");
         }}><FaRegEdit/></button>
       </div>
@@ -164,16 +161,15 @@ function HomePage({content,setContent}){
           onChange={(e) => setExpectedLabel(e.target.value)}>
             <option value="FAKE">Fake</option>
             <option value="REAL">True</option>
-            console.log(expectedLabel);
           </select>
           <textarea placeholder="Décrivez ce qui ne va pas..."
           value={feedbackComment}
-          onChange={(e) => setFeedbackContent(e.target.value)}
+          onChange={(e) => setFeedbackComment(e.target.value)}
           ></textarea>
           <div className="feedback-button">
-          <button className="send-feedback" onClick={()=> sendFeedback()
-          }>Envoyer</button>
+          <button className="send-feedback" onClick={()=> sendFeedback()}>Envoyer</button>
           <button className="close-feedback" onClick={() => SetshowFeedback(false)}>Annuler</button>
+          
           
           </div>
         </div>
@@ -181,6 +177,8 @@ function HomePage({content,setContent}){
     </div>
   );
 }
+
+
 function App() {
   const [content, setContent] = useState("");
 
