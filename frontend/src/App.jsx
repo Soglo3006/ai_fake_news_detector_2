@@ -9,6 +9,8 @@ import Register from './Register.jsx';
 function HomePage({content,setContent}){
     const [messages, setMessages] = useState([]);
     const [result, setResult] = useState(null);
+    const[feedbackContent, setFeedbackContent] = useState("");
+    const [showFeedback,SetshowFeedback] = useState(false);
 
     const analyzeText = async() => {
         if (content.trim().length < 1) {
@@ -83,13 +85,35 @@ function HomePage({content,setContent}){
         <button className="analyze-button" onClick={analyzeText}
         >Analyser</button>
         <div className='feedback-link'>
-          <button className='feeback-button'>feedback</button>
+          <button className='feeback-button' onClick={() => {
+          if (showFeedback === false){
+            SetshowFeedback(true);
+          } else {
+            SetshowFeedback(false);
+          }
+          }}>feedback</button>
         </div>
-        <div className="feedback-popup">
+        {showFeedback && (
+          <div className="feedback-popup">
           <h4>Votre retour</h4>
-          <textarea placeholder="Décrivez ce qui ne va pas..."></textarea>
-          <button className="send-feedback">Envoyer</button>
+          <textarea placeholder="Décrivez ce qui ne va pas..."
+          value={feedbackContent}
+          onChange={(e) => setFeedbackContent(e.target.value)}
+          ></textarea>
+          <div className="feedback-button">
+          <button className="send-feedback" onClick={()=> 
+            { if (feedbackContent.trim().length<1) {
+              alert("Veuillez entrer un feedback");
+            } else {
+              setFeedbackContent("");
+              SetshowFeedback(false);
+            }}
+          }>Envoyer</button>
+          <button className="close-feedback" onClick={() => SetshowFeedback(false)}>Annuler</button>
+          
+          </div>
         </div>
+        )}
     </div>
   );
 }
