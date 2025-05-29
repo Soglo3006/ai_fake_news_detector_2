@@ -11,6 +11,8 @@ function HomePage({content,setContent}){
     const [result, setResult] = useState(null);
     const[feedbackContent, setFeedbackContent] = useState("");
     const [showFeedback,SetshowFeedback] = useState(false);
+    const [expectedLabel, setExpectedLabel] = useState("FAKE");
+
 
     const analyzeText = async() => {
         if (content.trim().length < 1) {
@@ -37,6 +39,34 @@ function HomePage({content,setContent}){
             console.error("Erreur lors de l'analyse :", error);
         }
     };
+
+    const sendFeedback = async () => {
+  if (feedbackContent.trim().length < 1) {
+    alert("Veuillez entrer un commentaire.");
+    return;
+  }
+  try {
+    const response = await fetch('http://127.0.0.1:8000/feedback', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content: content,               
+        expected_label: expectedLabel, 
+        comment: feedbackContent       
+      }),
+    });
+    const data = await response.json();
+    alert(data.message);
+    setFeedbackContent(""); 
+    SetshowFeedback(false);
+  } catch (error) {
+    console.error("Erreur lors de l'envoi du feedback :", error);
+    alert("Échec de l'envoi du feedback.");
+  }
+};
+
     return (
     <div className="container">
       <div className='new-analysis-button'>
@@ -101,13 +131,7 @@ function HomePage({content,setContent}){
           onChange={(e) => setFeedbackContent(e.target.value)}
           ></textarea>
           <div className="feedback-button">
-          <button className="send-feedback" onClick={()=> 
-            { if (feedbackContent.trim().length<1) {
-              alert("Veuillez entrer un feedback");
-            } else {
-              setFeedbackContent("");
-              SetshowFeedback(false);
-            }}
+          <button className="send-feedback" onClick={()=> sendFeedback()
           }>Envoyer</button>
           <button className="close-feedback" onClick={() => SetshowFeedback(false)}>Annuler</button>
           
