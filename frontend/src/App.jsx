@@ -13,7 +13,10 @@ function HomePage({content,setContent}){
     const[feedbackContent, setFeedbackContent] = useState("");
     const [showFeedback,SetshowFeedback] = useState(false);
     const [expectedLabel, setExpectedLabel] = useState("FAKE");
+    const [labelFake, setLabelFake] = useState("FAKE");
+    const [labelTrue, setLabelTrue] = useState("TRUE");
     const inputRef = useRef(null);
+    const [feedbackComment, setFeedbackComment] = useState("");
 
 
     const analyzeText = async() => {
@@ -151,8 +154,20 @@ function HomePage({content,setContent}){
         {showFeedback && (
           <div className="feedback-popup">
           <h4>Votre retour</h4>
-          <textarea placeholder="Décrivez ce qui ne va pas..."
+          <textarea placeholder="Écrivez le news article que vous avez analysé ici..."
           value={feedbackContent}
+          onChange={(e) => setFeedbackContent(e.target.value)}
+          ></textarea>
+          <label>Étiquette attendue : </label>
+          <select
+          value={expectedLabel}
+          onChange={(e) => setExpectedLabel(e.target.value)}>
+            <option value="FAKE">Fake</option>
+            <option value="REAL">True</option>
+            console.log(expectedLabel);
+          </select>
+          <textarea placeholder="Décrivez ce qui ne va pas..."
+          value={feedbackComment}
           onChange={(e) => setFeedbackContent(e.target.value)}
           ></textarea>
           <div className="feedback-button">
