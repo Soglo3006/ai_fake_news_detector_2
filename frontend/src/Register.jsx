@@ -89,7 +89,6 @@ function Register(){
                     newErrors.confirmPassword = "Les mots de passe ne correspondent pas";
                     newErrors.password = "Les mots de passe ne correspondent pas";
                 }
-                console.log(Object.keys(newErrors));
                 if (Object.keys(newErrors).length > 0 ) {
                     setErrors(newErrors);
                 }  else{

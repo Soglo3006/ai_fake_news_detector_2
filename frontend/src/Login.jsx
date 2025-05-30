@@ -39,7 +39,7 @@ function Login() {
                 </div>
                 <div className="error-message">{errors.password}</div>
                 <button className="button-connecter"
-                onClick={()=>{
+                onClick={async ()=>{
                     const errorsLogin ={};
                     if(email === ""){
                         errorsLogin.email = "Veuillez entrer votre adresse courriel";
@@ -51,7 +51,23 @@ function Login() {
                     if (Object.keys(errorsLogin).length > 0){
                         setErrors(errorsLogin);
                     } else {
-                        navigate("/homepage");
+                        const response = await fetch("http://127.0.0.1:8000/login",{
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                email,
+                                password,
+                            }),
+                        });
+                        const data = await response.json();
+                        if (response.ok){
+                            alert(data.message)
+                            navigate("/homepage")
+                        } else {
+                            alert(data.error);
+                        }
                     } 
                 }}>
                     Se connecter

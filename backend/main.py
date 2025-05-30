@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from model_loader import predict_label
-from schemas import InputText, Feedback, RegisterRequest
+from schemas import InputText, Feedback, RegisterRequest, LoginRequest
 from fastapi.middleware.cors import CORSMiddleware
 import hashlib
 import json
@@ -10,7 +10,7 @@ user_file = "user.json"
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -52,3 +52,18 @@ def register_user(request: RegisterRequest):
     with open(user_file, "w") as f:
         json.dump(users, f)
     return {"message": "Utilisateur enregistré avec succès."}
+
+@app.post("/login")
+def login_user(request:LoginRequest):
+    try:
+        with open(user_file, "r") as f:
+            content = f.read().strip()
+            if not content:
+                return {"error": "Aucun utilisateur enregistré."}
+            users = json.loads(content)
+    except FileNotFoundError:
+        return{"error: Aucun utilisateur enregistré."}
+    
+    for i in users:
+        if i["email"] == request.email and i["password"]== hash_password(request.password):
+            return {"message": "Connexion réussie."}
