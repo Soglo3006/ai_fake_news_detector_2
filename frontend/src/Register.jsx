@@ -67,7 +67,7 @@ function Register(){
                 ></input>
                 <div className="error-message">{errors.confirmPassword}</div>
             <div className="button-continue">
-                <button onClick={()=>{
+                <button onClick={async ()=>{
                     const newErrors = {};
 
                 if (prenom.trim().length < 1 ) {
@@ -93,7 +93,25 @@ function Register(){
                 if (Object.keys(newErrors).length > 0 ) {
                     setErrors(newErrors);
                 }  else{
-                    navigate("/homepage");
+                    const response = await fetch("http://127.0.0.1:8000/register", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            firstname:prenom,
+                            lastname:name,
+                            email,
+                            password
+                        }),
+                    });
+                    const data = await response.json();
+                    if (response.ok) {
+                        alert(data.message);
+                        navigate("/homepage");
+                    } else {
+                        alert("Erreur de connexion");
+                    }
                 }
             }}
                 >Continuer</button>

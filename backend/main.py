@@ -1,9 +1,12 @@
 from fastapi import FastAPI
 from model_loader import predict_label
-from schemas import InputText, Feedback
+from schemas import InputText, Feedback, RegisterRequest
 from fastapi.middleware.cors import CORSMiddleware
+import hashlib
+import json
 
 app = FastAPI(title="Fake News Detector API")
+user_file = "user.json"
 
 app.add_middleware(
     CORSMiddleware,
@@ -13,6 +16,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+def hash_password(password: str):
+    return hashlib.sha256(password.encode()).hexdigest()
 
 @app.post("/analyze")
 def analyze(req: InputText):
@@ -25,3 +30,25 @@ def feedback(data: Feedback):
     print(f"Attendu: {data.expected_label}")
     print(f"Commentaire: {data.comment}")
     return {"message": "Feedback reçu. Merci !"}
+
+@app.post("/register")
+def register_user(request: RegisterRequest):
+    try:
+        with open(user_file, "r") as f:
+            users = json.load(f)
+    except FileNotFoundError:
+        users = []
+    for i in users:
+        if i["email"] == request.email:
+            return {"message": "Email déjà utilisé."}
+        
+    i = {
+        "firstname": request.firstname,
+        "lastname": request.lastname,
+        "email": request.email,
+        "password": hash_password(request.password)
+    }
+    users.append(i)
+    with open(user_file, "w") as f:
+        json.dump(users, f)
+    return {"message": "Utilisateur enregistré avec succès."}
