@@ -66,4 +66,10 @@ def login_user(request:LoginRequest):
     
     for i in users:
         if i["email"] == request.email and i["password"]== hash_password(request.password):
-            return {"message": "Connexion réussie."}
+            return {"message": "Connexion réussie.",
+                    "token":"fake-token",
+                    "user":{
+                        "firstname": i["firstname"],
+                        "lastname": i["lastname"],
+                        "email": i["email"]
+                    }}

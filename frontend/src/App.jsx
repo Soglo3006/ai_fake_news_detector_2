@@ -2,10 +2,12 @@ import { useState } from 'react'
 import './App.css'
 import { FaPlus, FaImage,FaRegEdit } from 'react-icons/fa';
 import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Login from "./Login.jsx";
 import Register from './Register.jsx';
 import { useRef } from 'react';
+import Header from "./Header";
+
 
 function HomePage({content,setContent}){
     const [messages, setMessages] = useState([]);
@@ -78,10 +80,6 @@ function HomePage({content,setContent}){
           setContent("");
           setExpectedLabel("FAKE");
         }}><FaRegEdit/></button>
-      </div>
-      <div className='auth-links'>
-        <Link to="/login"><button className="bouton-connexion">Connexion</button></Link>
-        <Link to="/inscrire"><button className="bouton-inscrire">S'incrire</button></Link>
       </div>
       <div className='section-page'>
       <h3>Fake News Detector</h3>
@@ -179,16 +177,28 @@ function HomePage({content,setContent}){
 }
 
 
-function App() {
+function AppContent() {
   const [content, setContent] = useState("");
+  const location = useLocation();
+
+  const isAuthPage = location.pathname === "/login" || location.pathname === "/inscrire";
 
   return (
-    <Router>
+    <>
+      {!isAuthPage && <Header />}
       <Routes>
         <Route path="/homepage" element={<HomePage content={content} setContent={setContent} />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/inscrire" element={<Register/>}/>
+        <Route path="/inscrire" element={<Register />} />
       </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }

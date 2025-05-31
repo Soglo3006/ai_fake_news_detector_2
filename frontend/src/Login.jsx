@@ -47,7 +47,6 @@ function Login() {
                     if(password === ""){
                         errorsLogin.password = "Veuillez entrer votre mot de passe";
                     }
-                    console.log((errorsLogin));
                     if (Object.keys(errorsLogin).length > 0){
                         setErrors(errorsLogin);
                     } else {
@@ -64,6 +63,10 @@ function Login() {
                         const data = await response.json();
                         if (response.ok){
                             alert(data.message)
+                            localStorage.setItem("token", data.token);
+                            localStorage.setItem("user", JSON.stringify(data.user));
+                            localStorage.getItem("token");
+                            localStorage.getItem("user");
                             navigate("/homepage")
                         } else {
                             alert(data.error);
