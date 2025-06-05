@@ -4,6 +4,7 @@ import { FaPlus, FaImage,FaRegEdit } from 'react-icons/fa';
 import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import Login from "./Login.jsx";
+import WelcomePage from "./WelcomePage.jsx";
 import Register from './Register.jsx';
 import { useRef } from 'react';
 import Header from "./Header";
@@ -185,11 +186,11 @@ function AppContent() {
 
   return (
     <>
-      {!isAuthPage && <Header />}
       <Routes>
         <Route path="/homepage" element={<HomePage content={content} setContent={setContent} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/inscrire" element={<Register />} />
+        <Route path='/Welcomepage' element={<WelcomePage />} />
       </Routes>
     </>
   );
