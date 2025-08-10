@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import "./Login.css";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -11,7 +10,7 @@ function Login() {
 
 
     return(
-        <div className="Tab-connexion">
+        <div className="items-center justify-between flex flex-col h-screen bg-gradient-to-r from-blue-500 to-purple-500">
             <h2>Fake News Detector</h2>
             <div className="Tab-connexion-form">
                 <h3>Connexion</h3>

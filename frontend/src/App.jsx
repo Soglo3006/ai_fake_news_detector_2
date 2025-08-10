@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import './App.css'
 import { FaPlus, FaImage,FaRegEdit } from 'react-icons/fa';
 import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
@@ -8,6 +7,7 @@ import WelcomePage from "./WelcomePage.jsx";
 import Register from './Register.jsx';
 import { useRef } from 'react';
 import Header from "./Header";
+import './index.css';
 
 
 function HomePage({content,setContent}){
@@ -74,7 +74,7 @@ function HomePage({content,setContent}){
 };
 
     return (
-    <div className="container">
+    <div className="+">
       <div className='new-analysis-button'>
         <button onClick={()=>{
           setMessages([]);

@@ -1,14 +1,13 @@
 from transformers import BertTokenizer, BertForSequenceClassification
 import torch
 
-# === 1. Charger le modèle fine-tuné ===
-model_path = "models/bert_fake_news"  # le dossier contenant le modèle sauvegardé après l'entraînement
+
+model_path = "models/bert_fake_news"  
 print(f"Chargement du modèle depuis : {model_path}")
 tokenizer = BertTokenizer.from_pretrained(model_path)
 model = BertForSequenceClassification.from_pretrained(model_path)
 model.eval() 
 
-# === 2. Fonction de prédiction ===
 def predict(text):
     inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True, max_length=512)
     with torch.no_grad():
@@ -19,7 +18,6 @@ def predict(text):
     label = "REAL" if predicted_class == 1 else "FAKE"
     return label, confidence
 
-# === 3. Exemple d'utilisation ===
 if __name__ == "__main__":
     examples = [
     "NASA successfully landed the Perseverance rover on Mars in February 2021.",
