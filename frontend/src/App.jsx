@@ -9,11 +9,13 @@ import {
   Breadcrumb,
   BreadcrumbList,
   BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
+import Login from './Login.jsx';
+import Register from './Register.jsx';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import WelcomePage from './WelcomePage.jsx';
+
 
 function HomePage({ content, setContent }) {
   const [messages, setMessages] = useState([]);
@@ -185,4 +187,28 @@ function HomePage({ content, setContent }) {
   );
 }
 
-export default HomePage;
+
+function AppContent() {
+  const [content, setContent] = useState("");
+
+  return (
+    <>
+      <Routes>
+        <Route path="/analyse" element={<HomePage content={content} setContent={setContent} />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/inscrire" element={<Register />} />
+        <Route path='/Welcomepage' element={<WelcomePage />} />
+      </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+}
+
+export default App;

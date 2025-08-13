@@ -25,7 +25,6 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import {Button} from "@/components/ui/button"
 
 const data = {
   user: {
@@ -35,7 +34,7 @@ const data = {
   },
   navMain: [
     {
-      title: "Tableau de Bord",
+      title: "Statistiques",
       url: "#",
       icon: SquareTerminal,
       isActive: true,
