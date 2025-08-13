@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button"
 
 function Login() {
   const [email, SetEmail] = useState("");
@@ -43,8 +44,8 @@ function Login() {
             <p className="text-red-500 text-sm mt-1">{errors.password}</p>
           )}
         </div>
-        <button
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold shadow-md"
+        <Button
+          className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-colors font-semibold"
           onClick={async () => {
             const errorsLogin = {};
             if (email === "") {
@@ -79,7 +80,7 @@ function Login() {
           }}
         >
           Se connecter
-        </button>
+        </Button>
         <div className="mt-4 text-center">
           <p className="text-gray-600">
             Vous n'avez pas de compte ?{" "}
