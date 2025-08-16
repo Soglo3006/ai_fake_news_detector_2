@@ -1,7 +1,6 @@
 from transformers import BertTokenizer, BertForSequenceClassification
 import torch
 
-
 model_path = "models/bert_fake_news"  
 print(f"Chargement du modèle depuis : {model_path}")
 tokenizer = BertTokenizer.from_pretrained(model_path)

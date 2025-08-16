@@ -6,4 +6,4 @@ args = TrainingArguments(
     per_device_train_batch_size=8,
     num_train_epochs=3,
 )
-print("✅ TrainingArguments fonctionne !")
+print("TrainingArguments fonctionne !")
