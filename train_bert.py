@@ -13,16 +13,12 @@ train_df = pd.read_csv("prepared_data/fake_news_train.csv")
 val_df = pd.read_csv("prepared_data/fake_news_val.csv")
 test_df = pd.read_csv("prepared_data/fake_news_test.csv")
 
-train_df = train_df.sample(1000, random_state=42)
-val_df = val_df.sample(200, random_state=42)
-test_df = test_df.sample(200, random_state=42)
-
 # === 2. Tokenizer BERT ===
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
 
 # === 3. Tokenization des données ===
 def tokenize(batch):
-    return tokenizer(batch["content"], padding=True, truncation=True, max_length=128)
+    return tokenizer(batch["content"], padding=True, truncation=True, max_length=512)
 
 train_dataset = Dataset.from_pandas(train_df).map(tokenize, batched=True)
 val_dataset = Dataset.from_pandas(val_df).map(tokenize, batched=True)
@@ -40,12 +36,12 @@ training_args = TrainingArguments(
     output_dir="./results",
     eval_strategy="epoch",
     save_strategy="epoch",
-    per_device_train_batch_size=8,
-    per_device_eval_batch_size=8,
-    num_train_epochs=1,
+    per_device_train_batch_size=16,
+    per_device_eval_batch_size=16,
+    num_train_epochs=4,
     weight_decay=0.01,
-    logging_dir="./logs",
-    logging_steps=10,
+    logging_dir="./logs",   
+    logging_steps=10,learning_rate=2e-5,
 )
 
 def compute_metrics(eval_pred):
