@@ -1,6 +1,6 @@
 import pandas as pd
 from datasets import Dataset
-from transformers import BertTokenizer, BertForSequenceClassification, Trainer, TrainingArguments
+from transformers import BertTokenizer, BertForSequenceClassification, Trainer, TrainingArguments,RobertaTokenizer, RobertaForSequenceClassification
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 from sklearn.model_selection import train_test_split
 import torch
@@ -19,7 +19,9 @@ val_df, _ = train_test_split(val_df, train_size=2000, stratify=val_df["label"], 
 test_df, _ = train_test_split(test_df, train_size=2000, stratify=test_df["label"], random_state=42)
 
 # === 2. Tokenizer BERT ===
-tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
+model = RobertaForSequenceClassification.from_pretrained("roberta-base", num_labels=2)
+
 
 # === 3. Tokenization des données ===
 def tokenize(batch):
