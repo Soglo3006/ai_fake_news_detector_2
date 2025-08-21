@@ -20,7 +20,7 @@ function WelcomePage() {
         </header>
         <section className="flex flex-col items-center text-center px-6 py-16">
             <h1 className="font-extrabold text-5xl sm:text-6xl text-gray-800 mb-6">
-            Détectez les Fake News avec l'IA
+            Détectez les nouvelles fausses
             </h1>
             <p className="text-lg text-gray-600 max-w-2xl mb-8">
             Analysez et identifiez les fausses informations grâce à notre outil intelligent. 

@@ -15,6 +15,15 @@ import Login from './Login.jsx';
 import Register from './Register.jsx';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import WelcomePage from './WelcomePage.jsx';
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 
 function HomePage({ content, setContent }) {
@@ -113,21 +122,27 @@ function HomePage({ content, setContent }) {
                 </p>
               </div>
             ))}
-            <div className="bg-white backdrop-blur-md bg-opacity-70 rounded-lg shadow-lg w-full p-6 flex flex-col gap-4">
-              <div className="text-lg font-bold text-center">Analysez votre contenu</div>
-              <textarea
-                placeholder="Entrez votre article ici..."
-                className="w-full h-32 border border-gray-300 rounded-lg px-4 py-2 resize-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                value={content}
-                ref={inputRef}
-                onChange={(e) => setContent(e.target.value)}
-              />
-              <button
-                onClick={analyzeText}
-                className="px-5 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
-              >
-                Analyser
-              </button>
+            <div className="max-w-3xl mx-auto">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-center text-2xl">Analysez votre contenu</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <textarea
+                    placeholder="Entrez votre article ici..."
+                    className="w-full h-32 border border-gray-300 rounded-lg px-4 py-2 resize-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                    value={content}
+                    ref={inputRef}
+                    onChange={(e) => setContent(e.target.value)}
+                  />
+                  <button
+                    onClick={analyzeText}
+                    className="px-5 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition w-full"
+                  >
+                    Analyser
+                  </button>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </main>
