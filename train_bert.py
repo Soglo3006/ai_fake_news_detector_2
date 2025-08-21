@@ -1,6 +1,6 @@
 import pandas as pd
 from datasets import Dataset
-from transformers import BertTokenizer, BertForSequenceClassification, Trainer, TrainingArguments,RobertaTokenizer, RobertaForSequenceClassification
+from transformers import BertTokenizer, BertForSequenceClassification, Trainer, TrainingArguments,RobertaTokenizer, RobertaForSequenceClassification,DataCollatorWithPadding
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 from sklearn.model_selection import train_test_split
 import torch
@@ -13,41 +13,40 @@ def train(taille):
     train_df = pd.read_csv(f"prepared_data/fake_news_{taille}_train.csv")
     val_df = pd.read_csv(f"prepared_data/fake_news_{taille}_val.csv")
     test_df = pd.read_csv(f"prepared_data/fake_news_{taille}_test.csv")
-
-    train_df, _ = train_test_split(train_df, train_size=8000, stratify=train_df["label"], random_state=42)
-    val_df, _ = train_test_split(val_df, train_size=2000, stratify=val_df["label"], random_state=42)
-    test_df, _ = train_test_split(test_df, train_size=2000, stratify=test_df["label"], random_state=42)
+    
+    train_df = train_df[train_df['content'].str.strip() != ""]
+    val_df = val_df[val_df['content'].str.strip() != ""]
+    test_df = test_df[test_df['content'].str.strip() != ""]
 
     # === 2. Tokenizer BERT ===
-    tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
-    model = RobertaForSequenceClassification.from_pretrained("roberta-base", num_labels=2)
-
+    tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+    model = BertForSequenceClassification.from_pretrained("bert-base-uncased", num_labels=2)
+    
     # === 3. Tokenization des données ===
     def tokenize(batch):
-        return tokenizer(batch["content"], padding=True, truncation=True, max_length=128)
+        return tokenizer(batch["content"], padding='max_length', truncation=True, max_length=128,return_tensors="pt")
 
     train_dataset = Dataset.from_pandas(train_df).map(tokenize, batched=True)
     val_dataset = Dataset.from_pandas(val_df).map(tokenize, batched=True)
     test_dataset = Dataset.from_pandas(test_df).map(tokenize, batched=True)
 
-    train_dataset.set_format("torch", columns=["input_ids", "attention_mask", "label"])
-    val_dataset.set_format("torch", columns=["input_ids", "attention_mask", "label"])
-    test_dataset.set_format("torch", columns=["input_ids", "attention_mask", "label"])
+    data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
     # === 4. Chargement du modèle BERT ===
     model = BertForSequenceClassification.from_pretrained("bert-base-uncased", num_labels=2)
 
     # === 5. Entraînement avec Trainer ===
     training_args = TrainingArguments(
-        output_dir="./results",
+        output_dir=f"./results_{taille}",
         eval_strategy="epoch",
         save_strategy="epoch",
-        per_device_train_batch_size=8,
-        per_device_eval_batch_size=8,
+        per_device_train_batch_size=4,  
+        per_device_eval_batch_size=4,
         num_train_epochs=2,
         weight_decay=0.01,
-        logging_dir="./logs",   
-        logging_steps=10,learning_rate=2e-5,
+        logging_dir=f"./logs_{taille}",
+        logging_steps=10,
+        learning_rate=2e-5,
     )
 
     def compute_metrics(eval_pred):
@@ -63,6 +62,7 @@ def train(taille):
         train_dataset=train_dataset,
         eval_dataset=val_dataset,
         compute_metrics=compute_metrics,
+        data_collator=data_collator
     )
 
     print("Début de l'entraînement")
