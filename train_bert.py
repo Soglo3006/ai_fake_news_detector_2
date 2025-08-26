@@ -1,54 +1,54 @@
 import pandas as pd
 from datasets import Dataset
-from transformers import BertTokenizer, BertForSequenceClassification, Trainer, TrainingArguments
+from transformers import BertTokenizer, BertForSequenceClassification, Trainer, TrainingArguments, DataCollatorWithPadding
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 from sklearn.model_selection import train_test_split
 import torch
 import transformers
+
 print("Fichier transformers importé depuis :", transformers.__file__)
 
+def train(taille):
+    # === 1. Chargement des données ===
+    print(f"Chargement des données préparées pour {taille}...")
+    train_df = pd.read_csv(f"prepared_data/fake_news_{taille}_train.csv")
+    val_df = pd.read_csv(f"prepared_data/fake_news_{taille}_val.csv")
+    test_df = pd.read_csv(f"prepared_data/fake_news_{taille}_test.csv")
 
-# === 1. Chargement des données ===
-print("Chargement des données préparées...")
-train_df = pd.read_csv("prepared_data/fake_news_train.csv")
-val_df = pd.read_csv("prepared_data/fake_news_val.csv")
-test_df = pd.read_csv("prepared_data/fake_news_test.csv")
+    # === 2. Tokenizer BERT ===
+    tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+    model = BertForSequenceClassification.from_pretrained("bert-base-uncased", num_labels=2)
 
-train_df = train_df.sample(1000, random_state=42)
-val_df = val_df.sample(200, random_state=42)
-test_df = test_df.sample(200, random_state=42)
-
-# === 2. Tokenizer BERT ===
-tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
-
-# === 3. Tokenization des données ===
-def tokenize(batch):
-    return tokenizer(batch["content"], padding=True, truncation=True, max_length=128)
+    # === 3. Tokenization des données ===
+    def tokenize(batch):
+        return tokenizer(
+            batch["content"],
+            padding='max_length', 
+            truncation=True,
+            max_length=128
+        )
 
     train_dataset = Dataset.from_pandas(train_df).map(tokenize, batched=True)
     val_dataset = Dataset.from_pandas(val_df).map(tokenize, batched=True)
     test_dataset = Dataset.from_pandas(test_df).map(tokenize, batched=True)
 
-train_dataset.set_format("torch", columns=["input_ids", "attention_mask", "label"])
-val_dataset.set_format("torch", columns=["input_ids", "attention_mask", "label"])
-test_dataset.set_format("torch", columns=["input_ids", "attention_mask", "label"])
+    data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
-    # === 4. Chargement du modèle BERT ===
-    model = BertForSequenceClassification.from_pretrained("bert-base-uncased", num_labels=2)
+    # === 5. Arguments d'entraînement ===
+    training_args = TrainingArguments(
+        output_dir=f"./results_{taille}",
+        eval_strategy="epoch",
+        save_strategy="epoch",
+        per_device_train_batch_size=4,  
+        per_device_eval_batch_size=4,
+        num_train_epochs=2,
+        weight_decay=0.01,
+        logging_dir=f"./logs_{taille}",   
+        logging_steps=10,
+        learning_rate=2e-5,
+    )
 
-# === 5. Entraînement avec Trainer ===
-training_args = TrainingArguments(
-    output_dir="./results",
-    eval_strategy="epoch",
-    save_strategy="epoch",
-    per_device_train_batch_size=8,
-    per_device_eval_batch_size=8,
-    num_train_epochs=1,
-    weight_decay=0.01,
-    logging_dir="./logs",
-    logging_steps=10,
-)
-
+    # === 6. Métriques ===
     def compute_metrics(eval_pred):
         logits, labels = eval_pred
         preds = torch.argmax(torch.tensor(logits), dim=-1)
@@ -56,27 +56,29 @@ training_args = TrainingArguments(
         acc = accuracy_score(labels, preds)
         return {"accuracy": acc, "precision": precision, "recall": recall, "f1": f1}
 
-trainer = Trainer(
-    model=model,
-    args=training_args,
-    train_dataset=train_dataset,
-    eval_dataset=val_dataset,
-    compute_metrics=compute_metrics,
-)
+    # === 7. Trainer ===
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=train_dataset,
+        eval_dataset=val_dataset,
+        compute_metrics=compute_metrics,
+        data_collator=data_collator
+    )
 
-    print("Début de l'entraînement")
+    print(f"Début de l'entraînement pour {taille}...")
     trainer.train()
 
-    # === 6. Évaluation finale ===
-    print("Évaluation finale sur le test set")
+    # === 8. Évaluation finale ===
+    print(f"Évaluation finale sur le test set ({taille})")
     metrics = trainer.evaluate(test_dataset)
     print(metrics)
 
-    # === 7. Sauvegarde du modèle ===
-    model.save_pretrained("models/bert_fake_news")
-    tokenizer.save_pretrained("models/bert_fake_news")
+    model.save_pretrained(f"models/bert_fake_news_{taille}")
+    tokenizer.save_pretrained(f"models/bert_fake_news_{taille}")
 
-    print("Entraînement terminé et modèle sauvegardé dans 'models/bert_fake_news'")
-    
-train("long") 
+    print(f"Entraînement terminé et modèle sauvegardé dans 'models/bert_fake_news_{taille}'")
+
+
+train("long")
 train("short")
