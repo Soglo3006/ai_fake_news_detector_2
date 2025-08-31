@@ -83,6 +83,15 @@ print(data)
 data_short = data[data["type"]=="short"]
 data_long = data[data["type"]=="long"]
 
+print("\n=== Distribution FAKE/REAL par type ===")
+print("SHORT :")
+print(data_short["label"].value_counts(), "\n")
+print(data_short["label"].value_counts(normalize=True), "\n")
+
+print("LONG :")
+print(data_long["label"].value_counts(), "\n")
+print(data_long["label"].value_counts(normalize=True), "\n")
+
 # === 6. Découpage train/val/test pour chaque type ===
 def split_and_save(df, prefix):
     train_df, temp_df = train_test_split(df, test_size=0.3, stratify=df["label"], random_state=42)
