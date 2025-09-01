@@ -15,7 +15,7 @@ def train(taille):
     val_df = pd.read_csv(f"prepared_data/fake_news_{taille}_val.csv")
     test_df = pd.read_csv(f"prepared_data/fake_news_{taille}_test.csv")
 
-    # === 2. Tokenizer BERT ===
+    # === 2. Tokenizer ===
     tokenizer = LongformerTokenizer.from_pretrained("allenai/longformer-base-4096")
     model = LongformerForSequenceClassification.from_pretrained("allenai/longformer-base-4096", num_labels=2)
 
@@ -50,7 +50,6 @@ def train(taille):
         fp16=True,
         report_to="none"  
 )
-
 
     # === 6. Métriques ===
     def compute_metrics(eval_pred):

@@ -4,7 +4,6 @@ from prepare_data import clean_text
 
 
 model_paths = {
-    "short": "models/bert_fake_news_short",
     "long": "models/bert_fake_news_long"
 }
 
@@ -17,21 +16,40 @@ for key, path in model_paths.items():
     models[key] = BertForSequenceClassification.from_pretrained(path)
     models[key].eval()
 
-def predict_single(text):
+def predict_single(text, max_length=1024):
     clean_txt = clean_text(text)
-    model_type = "long" if len(clean_txt.split()) > 30 else "short"
-    tokenizer = tokenizers[model_type]
-    model = models[model_type]
+    tokenizer = tokenizers["long"]
+    model = models["long"]
 
-    inputs = tokenizer(clean_txt, return_tensors="pt", truncation=True, padding=True, max_length=1500)
-    with torch.no_grad():
-        outputs = model(**inputs)
-        logits = outputs.logits
-        probs = torch.softmax(logits, dim=1)[0] 
-        predicted_class = torch.argmax(probs).item()
+    inputs = tokenizer(clean_txt, return_tensors="pt", truncation=False, padding=False)
+    input_ids = inputs["input_ids"][0]
+
+    # Segmentation si le texte est trop long
+    if len(input_ids) <= max_length:
+        segments = [input_ids]
+    else:
+        segments = [input_ids[i:i+max_length] for i in range(0, len(input_ids), max_length)]
+
+    all_logits = []
+
+    for segment in segments:
+        seg_inputs = {
+            "input_ids": segment.unsqueeze(0),
+            "attention_mask": torch.ones_like(segment).unsqueeze(0)
+        }
+
+        with torch.no_grad():
+            outputs = model(**seg_inputs)
+            all_logits.append(outputs.logits)
+
+    # Moyenne des résultats sur tous les segments
+    avg_logits = torch.mean(torch.stack(all_logits), dim=0)
+    probs = torch.softmax(avg_logits, dim=1)[0]
+    predicted_class = torch.argmax(probs).item()
 
     label = "REAL" if predicted_class == 1 else "FAKE"
-    return label, probs.tolist(), model_type
+    return label, probs.tolist(), "longformer"
+
 
 
 def predict_batch(texts):
