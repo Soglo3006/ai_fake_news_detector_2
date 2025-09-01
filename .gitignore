@@ -12,3 +12,4 @@ __pycache__/
 *.pyd
 
 .vscode/
+prepared_data.zip

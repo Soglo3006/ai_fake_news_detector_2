@@ -23,7 +23,7 @@ def predict_single(text):
     tokenizer = tokenizers[model_type]
     model = models[model_type]
 
-    inputs = tokenizer(clean_txt, return_tensors="pt", truncation=True, padding=True, max_length=512)
+    inputs = tokenizer(clean_txt, return_tensors="pt", truncation=True, padding=True, max_length=1500)
     with torch.no_grad():
         outputs = model(**inputs)
         logits = outputs.logits
@@ -47,19 +47,18 @@ def predict_batch(texts):
     return results
 
 if __name__ == "__main__":
-    examples = [
-    "On February 18, 2021, NASA successfully set the Perseverance rover down on Mars. Its mission includes searching for traces of past life, gathering samples of rocks and soil, and testing technologies that could support human exploration in the future.",
+    examples_fake_long = [
 
-    "The U.S. Congress ratified the 2020 presidential election results in January 2021, officially confirming Joe Biden's win. Despite some objections raised during the session, no attempt to overturn the results succeeded, ensuring a constitutional transfer of power.",
+    "In March 2021, NASA allegedly discovered an alien civilization on Mars, claiming to have found fully grown organisms and signs of advanced technology. According to the reports, these Martian beings communicated using radio waves and have already built structures similar to Earth cities. While NASA refused to provide any official evidence, multiple media outlets circulated images supposedly showing alien cities, sparking global excitement and disbelief.",
 
-    "Italy emerged victorious at the UEFA Euro 2020, defeating England in a penalty shootout after a 1-1 draw in extra time. This triumph marks Italy's second European Championship title and triggered nationwide celebrations.",
+    "During the January 2021 certification of the 2020 U.S. presidential election, several major news outlets reported that Congress had secretly voted to cancel the results due to alleged widespread voter fraud. The articles described lengthy closed-door sessions where lawmakers allegedly planned to install a provisional government. Numerous photos and documents were circulated on social media as proof, but none were verified, causing widespread confusion and debate across the country.",
 
-    "Healthcare workers and senior citizens were the first to receive the newly approved COVID-19 vaccines in the United States in December 2020. Clinical trials of Pfizer-BioNTech and Moderna vaccines indicated over 90% efficacy in preventing symptomatic cases."
+    "In July 2021, Italy was reported to have won the UEFA Euro 2020 championship in a stunningly lopsided match, with a final score of 10-0 against England in the penalty shootout. According to these claims, the match broke all records in football history, leading to nationwide celebrations and international headlines. Fans shared countless videos online showing players celebrating wildly, although no official match records confirmed such a result.",
+
+    "In December 2020, a series of online reports claimed that the newly approved COVID-19 vaccines not only failed to prevent infections but also increased the risk of contracting the virus by 50%. These articles cited anonymous internal studies from Pfizer and Moderna, and included fabricated charts showing rising infection rates among vaccinated populations. Despite the sensational headlines, no peer-reviewed studies or official health agencies have ever confirmed these claims."
 ]
 
-
-
-    predictions = predict_batch(examples)
+    predictions = predict_batch(examples_fake_long)
 
     for i, pred in enumerate(predictions):
         print(f"\nTexte {i+1}: {pred['text']}")
