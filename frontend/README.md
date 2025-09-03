@@ -1,12 +1,93 @@
-# React + Vite
+AI Fake News Detector
+Présentation
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+AI Fake News Detector est une application web conçue pour analyser des articles et identifier s’ils sont vrais ou faux à l’aide de modèles de traitement automatique du langage (NLP).
+Le projet combine intelligence artificielle et développement full-stack afin de créer un outil pratique, moderne et robuste.
 
-Currently, two official plugins are available:
+Fonctionnalités
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Classification automatique des textes en deux catégories : Fake ou Réel.
 
-## Expanding the ESLint configuration
+Gestion aussi bien des textes courts que des articles longs.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Interface utilisateur intuitive, responsive et moderne.
+
+Système d’authentification et d’historique des analyses.
+
+Amélioration continue des modèles selon les besoins et les données.
+
+Technologies principales
+Frontend
+
+React.js pour la structure de l’interface
+
+Tailwind CSS pour le design responsive
+
+Shadcn UI pour l’intégration de composants réutilisables
+
+Backend
+
+FastAPI pour l’API rapide et performante
+
+PostgreSQL pour la gestion des utilisateurs et de l’historique
+
+Machine Learning
+
+PyTorch pour l’entraînement des modèles
+
+Hugging Face Transformers pour le fine-tuning des modèles NLP
+
+BERT comme baseline pour les textes ≤ 512 tokens
+
+RoBERTa pour améliorer la précision sur les textes courts/moyens
+
+Longformer pour la prise en charge des textes longs (> 512 tokens)
+
+Google Colab (GPU T4) pour l’entraînement des modèles
+
+Jeux de données
+
+FakeNewsNet : base d’articles variés (fake et réels)
+
+Fake.csv & True.csv (Kaggle) : premier dataset utilisé pour l’entraînement
+
+LIAR dataset : testé mais abandonné car trop limité
+
+Méthodologie
+
+Préparation et nettoyage des données
+
+Entraînement et comparaison de plusieurs modèles NLP
+
+Fine-tuning adapté à la longueur des textes
+
+Développement d’une interface React connectée au backend FastAPI
+
+Mise en place d’une base de données pour gérer les utilisateurs et leurs analyses
+
+Intégration progressive du système complet (frontend ↔ backend ↔ IA)
+
+État du projet
+
+-Interface React terminée
+
+-Backend FastAPI opérationnel
+
+-Base PostgreSQL intégrée
+
+-Modèle BERT fine-tuné
+
+-Longformer prévu pour la gestion des textes longs
+
+-Système d’historique utilisateur en développement
+
+Objectif final
+
+L’objectif de ce projet est de proposer un outil fiable et accessible pour détecter les fake news dans des articles de toute taille.
+Au-delà de l’application, ce projet met en valeur ma capacité à :
+
+travailler sur des projets IA/NLP concrets,
+
+développer une application web complète full-stack,
+
+utiliser une méthodologie scientifique et expérimentale pour tester et comparer plusieurs approches.
