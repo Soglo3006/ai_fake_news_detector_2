@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from predict import predict_single
 from schemas import InputText, Feedback, RegisterRequest, LoginRequest
+from shap_explain import explain_text
 from fastapi.middleware.cors import CORSMiddleware
 import hashlib
 import json
@@ -28,7 +29,7 @@ def analyze(req: InputText):
         confidence = confidence_list[1]  
     shap_values = explain_text(req.content)
     
-    return {"label": label, "confidence": confidence}
+    return {"label": label,"confidence": confidence,"shap_values": shap_values}
 
 @app.post("/feedback")
 def feedback(data: Feedback):

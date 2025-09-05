@@ -114,12 +114,13 @@ function HomePage({ content, setContent }) {
                 >
                   {msg.result.label} – {Math.round(msg.result.confidence * 100)}%
                 </h3>
-                <p className="text-gray-600">
-                  Ce texte présente des éléments typiques de{" "}
-                  {msg.result.label === "FAKE"
-                    ? "désinformation"
-                    : "contenu fiable"}.
-                </p>
+                <div className="mt-2">
+                  {msg.result.shap_values && msg.result.shap_values.map((s, i) => (
+                    <span key={i} className="bg-yellow-200 px-1 rounded mr-1">
+                      {s.word} ({s.importance.toFixed(2)})
+                    </span>
+                  ))}
+                </div>
               </div>
             ))}
             <div className="max-w-3xl mx-auto">
