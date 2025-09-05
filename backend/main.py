@@ -26,6 +26,7 @@ def analyze(req: InputText):
         confidence = confidence_list[0]  
     else:
         confidence = confidence_list[1]  
+    shap_values = explain_text(req.content)
     
     return {"label": label, "confidence": confidence}
 
