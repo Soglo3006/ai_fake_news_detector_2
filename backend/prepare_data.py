@@ -4,18 +4,23 @@ from sklearn.model_selection import train_test_split
 import os
 
 # === 1. Chargement des fichiers ===
-fake_df = pd.read_csv("News/Fake.csv")
-true_df = pd.read_csv("News/True.csv")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-liar_df = pd.read_csv("News/LIAR/train.tsv", sep='\t', header=None, on_bad_lines='skip')
-liar_df = liar_df[[2,1]] 
+fake_csv_path = os.path.join(BASE_DIR, "News", "Fake.csv")
+true_csv_path = os.path.join(BASE_DIR, "News", "True.csv")
+
+fake_df = pd.read_csv(fake_csv_path)
+true_df = pd.read_csv(true_csv_path)
+
+liar_df = pd.read_csv(os.path.join(BASE_DIR, "News", "LIAR", "train.tsv"),sep='\t', header=None, on_bad_lines='skip')
+liar_df = liar_df[[2,1]]
 liar_df.columns = ["content","label"]
 
-BuzzFeedTrue_df = pd.read_csv("News/FakeNewsNet/BuzzFeed_real_news_content.csv")
-BuzzFeedFake_df = pd.read_csv("News/FakeNewsNet/BuzzFeed_fake_news_content.csv")
+BuzzFeedTrue_df = pd.read_csv(os.path.join(BASE_DIR, "News", "FakeNewsNet", "BuzzFeed_real_news_content.csv"))
+BuzzFeedFake_df = pd.read_csv(os.path.join(BASE_DIR, "News", "FakeNewsNet", "BuzzFeed_fake_news_content.csv"))
 
-PolitiFactTrue_df = pd.read_csv("News/FakeNewsNet/PolitiFact_real_news_content.csv")
-PolitiFactFake_df = pd.read_csv("News/FakeNewsNet/PolitiFact_fake_news_content.csv")
+PolitiFactTrue_df = pd.read_csv(os.path.join(BASE_DIR, "News", "FakeNewsNet", "PolitiFact_real_news_content.csv"))
+PolitiFactFake_df = pd.read_csv(os.path.join(BASE_DIR, "News", "FakeNewsNet", "PolitiFact_fake_news_content.csv"))
 
 # === 2. Ajout du champ type ===
 liar_df["type"] = "short"   

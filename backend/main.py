@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from model_loader import predict_label
+from predict import predict_single
 from schemas import InputText, Feedback, RegisterRequest, LoginRequest
 from fastapi.middleware.cors import CORSMiddleware
 import hashlib
@@ -21,7 +21,12 @@ def hash_password(password: str):
 
 @app.post("/analyze")
 def analyze(req: InputText):
-    label, confidence = predict_label(req.content)
+    label, confidence_list, model_used = predict_single(req.content)
+    if label == "FAKE":
+        confidence = confidence_list[0]  
+    else:
+        confidence = confidence_list[1]  
+    
     return {"label": label, "confidence": confidence}
 
 @app.post("/feedback")
@@ -73,3 +78,11 @@ def login_user(request:LoginRequest):
                         "lastname": i["lastname"],
                         "email": i["email"]
                     }}
+
+@app.get("/")
+def read_root():
+    return {"message": "Fake News Detector API is running!"}
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}

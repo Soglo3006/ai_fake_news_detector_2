@@ -50,8 +50,6 @@ def predict_single(text, max_length=1024):
     label = "REAL" if predicted_class == 1 else "FAKE"
     return label, probs.tolist(), "longformer"
 
-
-
 def predict_batch(texts):
     results = []
     for text in texts:
@@ -76,11 +74,11 @@ if __name__ == "__main__":
     "In December 2020, a series of online reports claimed that the newly approved COVID-19 vaccines not only failed to prevent infections but also increased the risk of contracting the virus by 50%. These articles cited anonymous internal studies from Pfizer and Moderna, and included fabricated charts showing rising infection rates among vaccinated populations. Despite the sensational headlines, no peer-reviewed studies or official health agencies have ever confirmed these claims."
 ]
 
-    predictions = predict_batch(examples_fake_long)
+    #predictions = predict_batch(examples_fake_long)
 
-    for i, pred in enumerate(predictions):
-        print(f"\nTexte {i+1}: {pred['text']}")
-        print(f"Modèle utilisé : {pred['model_used']}")
-        print(f"Prédiction : {pred['label']}")
-        print(f"Probabilités -> FAKE: {pred['confidence'][0]:.2f}, REAL: {pred['confidence'][1]:.2f}")
+    #for i, pred in enumerate(predictions):
+    #    print(f"\nTexte {i+1}: {pred['text']}")
+    #    print(f"Modèle utilisé : {pred['model_used']}")
+    #    print(f"Prédiction : {pred['label']}")
+    #    print(f"Probabilités -> FAKE: {pred['confidence'][0]:.2f}, REAL: {pred['confidence'][1]:.2f}")
 
